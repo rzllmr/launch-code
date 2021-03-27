@@ -1,0 +1,22 @@
+{
+  "extends": "eslint-config-google",
+
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+
+  "env": {
+    "es6": true,
+    "node": true,
+    "jquery": true
+  },
+
+  "rules": {
+    "require-jsdoc": "off",
+    "comma-dangle": "off",
+    "max-len": ["error", { "code": 100 }],
+    "guard-for-in": "off",
+    "linebreak-style": "off",
+    "indent": ["error", 2]
+  }
+}

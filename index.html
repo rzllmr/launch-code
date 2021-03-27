@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Launch Code</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    
+    <style>* {padding: 0; margin: 0}</style>
+
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+    <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="node_modules/pixi.js/dist/browser/pixi.min.js"></script>
+    <script type="text/javascript" src="node_modules/@pixi/unsafe-eval/dist/browser/unsafe-eval.min.js"></script>
+    <script type="text/javascript" src="scripts/renderer.js"></script>
+
+    <script>if (window.module) module = window.module;</script>
+</head>
+<body style="background: white;">
+</body>
+</html>

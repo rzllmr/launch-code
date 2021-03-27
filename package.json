@@ -1,0 +1,27 @@
+{
+  "name": "launch-code",
+  "version": "0.0.1",
+  "description": "Launch a rocket with programming exercises",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "tsc": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^12.0.1",
+    "electron-builder": "^22.10.5",
+    "eslint": "^7.22.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "dependencies": {
+    "@pixi/unsafe-eval": "^6.0.1",
+    "jquery": "^3.6.0",
+    "pixi.js": "^6.0.1",
+    "typescript": "^4.2.3"
+  }
+}

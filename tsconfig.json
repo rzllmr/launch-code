@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "module": "commonjs",
+    "outDir": "compiled",
+    "sourceMap": true,
+
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strict": true,
+
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    "pretty": false,
+
+    "allowUnreachableCode": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "code/**/*.ts"
+  ]
+}
