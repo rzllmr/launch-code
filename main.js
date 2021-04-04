@@ -13,10 +13,10 @@ function createWindow() {
 
   const menuTemplate = [
     {
-      label: 'Compile',
+      label: 'Test',
       accelerator: 'Ctrl+C',
       click() {
-        win.webContents.send('compile');
+        win.webContents.send('test');
       },
       enabled: false,
       id: 'compile'

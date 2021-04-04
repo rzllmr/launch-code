@@ -5,6 +5,27 @@ class View {
     this.code = new CodeCheck();
     this.animations = new Map();
     this.activeAnimations = new Set();
+
+    this.tests = new Map();
+    $(window).on('test', (_, testName) => {
+      if (this.tests.has(testName) == false) return;
+      this.runTest(this.tests.get(testName));
+    });
+  }
+
+  runTest(test) {
+    let lastPromise = Promise.resolve();
+    for (const check of test.checks) {
+      lastPromise = lastPromise.then((input) => {
+        return check.execute(input);
+      }).then((output) => {
+        check.success(output);
+        return output;
+      }).catch((error) => {
+        check.failure(error);
+      });
+    }
+    lastPromise.finally(test.finalize);
   }
 
   addAnimations(animations) {

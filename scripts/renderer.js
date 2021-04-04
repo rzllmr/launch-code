@@ -10,8 +10,8 @@ const {ipcRenderer} = require('electron');
       canvas.scaleToWindow();
     });
 
-    ipcRenderer.on('compile', (event) => {
-      $(window).trigger('compile');
+    ipcRenderer.on('test', (event) => {
+      $(window).trigger('test', 'rocket');
     });
   });
 }(window.jQuery, window, document));

@@ -15,6 +15,7 @@ class CodeCheck {
 
   compile(filesToCompile) {
     return new Promise((resolve, reject) => {
+      console.log('compiling');
       this.compiling = true;
       this.createConfig('tsconfig-select.json', filesToCompile);
       exec(`npm run tsc -- -p tsconfig-select.json`, (error, stdout, _) => {
@@ -34,12 +35,15 @@ class CodeCheck {
           }
           reject(errors);
         }
-        resolve(this.relatedJsFiles(this.filesInDir('compiled'), filesToCompile));
+        const allJsFiles = this.filesInDir('compiled');
+        const files = this.relatedJsFiles(allJsFiles, filesToCompile);
+        resolve(files);
       });
     });
   }
 
   async require(jsFiles) {
+    console.log('requiring');
     const modules = [];
     for (const jsFile of jsFiles) {
       const module = require('../' + jsFile);
@@ -49,20 +53,24 @@ class CodeCheck {
   }
 
   async instance(modules, className) {
+    console.log('instancing');
     let object = null;
     for (const module of modules) {
       if (className in module) {
         object = new module[className]();
       }
     }
+    if (object == null) throw new Error('no class of that name');
     return object;
   }
 
   async property(object, propertyName) {
+    console.log('properting');
     let value = null;
     if (propertyName in object) {
       value = object[propertyName];
     }
+    if (value == null) throw new Error('no property of that name');
     return value;
   }
 

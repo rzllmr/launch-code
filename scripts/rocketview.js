@@ -1,4 +1,5 @@
 
+const {Check, Test} = require('./test');
 const View = require('./view');
 
 class RocketView extends View {
@@ -9,41 +10,52 @@ class RocketView extends View {
     this.object('icons').y = -88;
 
     this.registerAnimations();
-
     this.timer = [0.0, 100.0, 100.0];
-    $(window).on('compile', this.checkCode.bind(this));
+
+    this.tests = new Map([
+      ['rocket', this.rocketTest()]
+    ]);
+
+    require('fake');
   }
 
-  checkCode() {
-    this.object('check').visible = false;
-    this.object('error').visible = false;
-    this.object('spinner').visible = true;
-
-    this.startAnimation('check');
-
-    console.log('compiling', this.constructor.name);
-    this.code.compile(['code/rocket.ts', 'code/subdir/part.ts']).then((jsFiles) => {
-      console.log('files', jsFiles);
-      return this.code.require(jsFiles);
-    }).then((modules) => {
-      console.log('modules', modules);
-      return this.code.instance(modules, 'Rocket');
-    }).then((object) => {
-      console.log('object', object);
-      this.object('check').visible = true;
-      return this.code.property(object, 'ready');
-    }).then((value) => {
-      console.log('value', value);
-      if (value === true) {
-        this.startAnimation('launch');
+  rocketTest() {
+    return new Test({
+      checks: [
+        new Check({
+          success: (output) => {
+            this.object('check').visible = false;
+            this.object('error').visible = false;
+            this.object('spinner').visible = true;
+            this.startAnimation('check');
+          }
+        }),
+        new Check({
+          execute: (input) => this.code.compile(['code/rocket.ts'])
+        }),
+        new Check({
+          execute: (files) => this.code.require(files),
+        }),
+        new Check({
+          execute: (modules) => this.code.instance(modules, 'Rocket'),
+          success: (object) => {
+            this.object('check').visible = true;
+          },
+          failure: (error) => {
+            this.object('error').visible = true;
+            throw new Error();
+          }
+        }),
+        new Check({
+          execute: (object) => this.code.property(object, 'ready'),
+          success: (value) => this.startAnimation('launch')
+        })
+      ],
+      finalize: () => {
+        this.stopAnimation('check');
+        this.object('spinner').visible = false;
+        this.timer = [0.0, 100.0, 100.0];
       }
-    }).catch((errors) => {
-      this.object('error').visible = true;
-      console.log(errors);
-    }).finally(() => {
-      this.stopAnimation('check');
-      this.object('spinner').visible = false;
-      this.timer = [0.0, 100.0, 100.0];
     });
   }
 
