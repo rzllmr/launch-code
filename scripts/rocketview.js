@@ -1,6 +1,6 @@
-
-const {Check, Test} = require('./test');
 const View = require('./view');
+const {Check, Test} = require('./test');
+const Animation = require('./animation');
 
 class RocketView extends View {
   constructor() {
@@ -8,15 +8,19 @@ class RocketView extends View {
 
     this.object('rocket').visible = true;
     this.object('icons').y = -88;
+  }
 
-    this.registerAnimations();
-    this.timer = [0.0, 100.0, 100.0];
+  registerTests() {
+    return {
+      rocket: this.rocketTest()
+    };
+  }
 
-    this.tests = new Map([
-      ['rocket', this.rocketTest()]
-    ]);
-
-    require('fake');
+  registerAnimations() {
+    return {
+      check: this.checkAnimation(),
+      launch: this.launchAnimation()
+    };
   }
 
   rocketTest() {
@@ -54,23 +58,26 @@ class RocketView extends View {
       finalize: () => {
         this.stopAnimation('check');
         this.object('spinner').visible = false;
-        this.timer = [0.0, 100.0, 100.0];
       }
     });
   }
 
-  registerAnimations() {
-    this.addAnimations({
-      check: (delta) => {
-        const elapsed = delta * 16.66;
-        this.timer[0] += elapsed;
-        if (this.timer[0] > this.timer[1]) {
-          this.timer[1] += this.timer[2];
+  checkAnimation() {
+    this.nextStep = 100.0;
+    return new Animation({
+      run: (delta, time) => {
+        if (time > this.nextStep) {
+          this.nextStep += 100.0;
           this.object('spinner').angle += 30;
         }
-      },
-      launch: (delta) => {
-        this.object('rocket').y -= 1;
+      }
+    });
+  }
+
+  launchAnimation() {
+    return new Animation({
+      run: (delta, time) => {
+        this.object('rocket').y -= 1 * delta;
       }
     });
   }

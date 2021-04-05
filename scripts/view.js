@@ -5,12 +5,29 @@ class View {
     this.code = new CodeCheck();
     this.animations = new Map();
     this.activeAnimations = new Set();
+    this.addAnimations(this.registerAnimations());
 
     this.tests = new Map();
+    this.addTests(this.registerTests());
+
     $(window).on('test', (_, testName) => {
       if (this.tests.has(testName) == false) return;
       this.runTest(this.tests.get(testName));
     });
+  }
+
+  registerTests() {
+    throw Error('override registerTests() in ' + this.constructor.name);
+  }
+
+  registerAnimations() {
+    throw Error('override registerAnimations() in ' + this.constructor.name);
+  }
+
+  addTests(tests) {
+    for (const [name, object] of Object.entries(tests)) {
+      this.tests.set(name, object);
+    }
   }
 
   runTest(test) {
@@ -29,8 +46,8 @@ class View {
   }
 
   addAnimations(animations) {
-    for (const [name, method] of Object.entries(animations)) {
-      this.animations.set(name, method);
+    for (const [name, object] of Object.entries(animations)) {
+      this.animations.set(name, object);
     }
   }
 
@@ -48,7 +65,7 @@ class View {
 
   update(delta) {
     for (const name of this.activeAnimations) {
-      this.animations.get(name)(delta);
+      this.animations.get(name).run(delta);
     }
   }
 
