@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Launch Code Presentation</title>
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="vendor/reveal.js/dist/reveal.css">
+    <link rel="stylesheet" href="vendor/reveal.js/dist/theme/beige.css">
+    <link rel="stylesheet" href="vendor/reveal.js/plugin/highlight/stackoverflow-light.css">
+    <!-- <link rel="stylesheet" href="vendor/reveal.js/dist/theme/league.css">
+    <link rel="stylesheet" href="vendor/reveal.js/plugin/highlight/stackoverflow-dark.css"> -->
+    <link rel="stylesheet" href="styles/general.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-external-replace="includes/introduction.html"> </section>
+      </div>
+    </div>
+    <script src="vendor/reveal.js/dist/reveal.js"></script>
+    <script src="vendor/reveal.js/plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        plugins: [RevealHighlight],
+        dependencies: [
+          { 
+            src: 'vendor/reveal_external/external/external.js', 
+            condition: function() { 
+              return !!document.querySelector( '[data-external],[data-external-replace]' ); 
+            } 
+          }
+        ],
+        hash: true
+      });
+    </script>
+  </body>
+</html>
