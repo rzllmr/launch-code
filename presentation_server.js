@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 const port = 8080;
+const presentationDir = __dirname + '/docs';
 const vendorFiles = [
   ['reveal.js/LICENSE'],
   ['reveal.js/dist/reveal.js'],
@@ -18,7 +19,7 @@ const vendorFiles = [
 console.log('updating vendors...');
 updateVendors();
 
-const file = new(static.Server)(__dirname);
+const file = new(static.Server)(presentationDir);
 http.createServer(function(req, res) {
   file.serve(req, res);
 }).listen(port);
@@ -26,8 +27,8 @@ console.log(`listening on localhost:${port}...`);
 
 function updateVendors() {
   for (const relativePath of vendorFiles) {
-    const sourcePath = __dirname + '/../node_modules/' + relativePath;
-    const destinationPath = __dirname + '/vendor/' + relativePath;
+    const sourcePath = presentationDir + '/../node_modules/' + relativePath;
+    const destinationPath = presentationDir + '/vendor/' + relativePath;
 
     const destinationDir = path.dirname(destinationPath);
     if (!fs.existsSync(destinationDir)) {
